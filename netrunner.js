@@ -6,7 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const squares = [];
   const scoreDisplay = document.getElementById('score')
   let score = 0;
-  const squareColors = ["red", "yellow", "purple", "green", "blue", "orange"];
+  const squareColors = [
+    "url(icon1.png)", 
+    "url(icon2.png)", 
+    "url(icon3.png)", 
+    "url(icon4.png)", 
+    "url(icon5.png)", 
+    "url(icon7.png)",
+  ];
 
   //this function creates the squares on the board
   function createBoard() {
@@ -15,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       square.setAttribute("draggable", true);
       square.setAttribute("id", i);
       let randomColor = Math.floor(Math.random() * squareColors.length);
-      square.style.backgroundColor = squareColors[randomColor]; //
+      square.style.backgroundImage = squareColors[randomColor]; //
       grid.appendChild(square);
       squares.push(square);
     }
@@ -37,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   squares.forEach((square) => square.addEventListener("drop", dragDrop));
 
   function dragStart() {
-    squareBeingDragged = this.style.backgroundColor;
+    squareBeingDragged = this.style.backgroundImage;
     console.log(this.id, "dragstart");
     squareIdBeingDragged = parseInt(this.id); // converts square id into a number
     console.log(squareBeingDragged);
@@ -56,10 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function dragDrop() {
     console.log(this.id, "dragDrop");
-    squareBeingReplaced = this.style.backgroundColor;
+    squareBeingReplaced = this.style.backgroundImage;
     squareIdBeingReplaced = parseInt(this.id); //convers square being replaced Id to a number so it can be used to calculate Id of valid moves below (because you need to add/subtract)
-    this.style.backgroundColor = squareBeingDragged;
-    squares[squareIdBeingDragged].style.backgroundColor = squareBeingReplaced; // this will give the new square the color of the square being replaced
+    this.style.backgroundImage = squareBeingDragged;
+    squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced; // this will give the new square the color of the square being replaced
   }
   function dragEnd() {
     console.log(this.id, "dragend");
@@ -74,11 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (squareIdBeingReplaced && validMove) {
       squareIdBeingReplaced = null;
     } else if (squareIdBeingReplaced && !validMove) {
-      squares[squareIdBeingReplaced].style.backgroundColor =
+      squares[squareIdBeingReplaced].style.backgroundImage =
         squareBeingReplaced; // if it is not a valid move square color does not change
-      squares[squareIdBeingDragged].style.backgroundColor = squareBeingDragged;
+      squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged;
     } else
-      squares[squareIdBeingDragged].style.backgroundColor = squareBeingDragged; // color doesn't change until after dragEnd has finished
+      squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged; // color doesn't change until after dragEnd has finished
   }
   /* currently squares can be swapped if one begins a row and the other ends a row which needs fixing. 
   Also can swap squares diagonally which needs fixing */
@@ -90,22 +97,22 @@ document.addEventListener("DOMContentLoaded", () => {
   /*function fillBlanksAtStart () {
     for (i = 0; i < squares.length; i++) {
     let randomColor = Math.floor(Math.random() * squareColors.length)
-    if (squares[i].style.backgroundColor === '') {
-      squares[i].style.backgroundColor = squareColors[randomColor]
+    if (squares[i].style.backgroundImage === '') {
+      squares[i].style.backgroundImage = squareColors[randomColor]
     }
   }
   }*/
 
   function moveDown() {
     for (i = 0; i <= 55; i++) {
-        if (squares[i + width].style.backgroundColor === '') {
-            squares[i + width].style.backgroundColor = squares[i].style.backgroundColor
-            squares[i].style.backgroundColor = ''
+        if (squares[i + width].style.backgroundImage === '') {
+            squares[i + width].style.backgroundImage = squares[i].style.backgroundImage
+            squares[i].style.backgroundImage = ''
             const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
             const isFirstRow = firstRow.includes(i)
-            if (isFirstRow && (squares[i].style.backgroundColor === '')) {
+            if (isFirstRow && (squares[i].style.backgroundImage === '')) {
               let randomColor = Math.floor(Math.random() * squareColors.length)
-              squares[i].style.backgroundColor = squareColors[randomColor]
+              squares[i].style.backgroundImage = squareColors[randomColor]
             }
         }
     }
@@ -118,8 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
       //for has to be set at 61 because that's the maximum that can be checked ie square 61, 62 and 63
 
       let rowOfThree = [i, i + 1, i + 2]; //three squares inside square array
-      let decidedColor = squares[i].style.backgroundColor;
-      const isBlank = squares[i].style.backgroundColor === "";
+      let decidedColor = squares[i].style.backgroundImage;
+      const isBlank = squares[i].style.backgroundImage === "";
 
       const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]; // array of square ID's that are the last two on each row
 
@@ -128,13 +135,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (
         rowOfThree.every(
           (index) =>
-            squares[index].style.backgroundColor === decidedColor && !isBlank
+            squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
         score += 100;
         scoreDisplay.innerHTML = score
         rowOfThree.forEach((index) => {
-          squares[index].style.backgroundColor = "";
+          squares[index].style.backgroundImage = "";
         });
       }
     }
@@ -147,19 +154,19 @@ document.addEventListener("DOMContentLoaded", () => {
       //for has to be set at 47 because that's the maximum that can be checked ie square 47, 55, 63. 63 is last viable square because first square index is 0
 
       let columnOfThree = [i, i + width, i + width * 2]; //three squares inside square array - square ID plus width to go up one row and plus double width to go up two rows
-      let decidedColor = squares[i].style.backgroundColor;
-      const isBlank = squares[i].style.backgroundColor === "";
+      let decidedColor = squares[i].style.backgroundImage;
+      const isBlank = squares[i].style.backgroundImage === "";
 
       if (
         columnOfThree.every(
           (index) =>
-            squares[index].style.backgroundColor === decidedColor && !isBlank
+            squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
         score += 100;
         scoreDisplay.innerHTML = score
         columnOfThree.forEach((index) => {
-          squares[index].style.backgroundColor = "";
+          squares[index].style.backgroundImage = "";
         });
       }
     }
@@ -170,19 +177,19 @@ document.addEventListener("DOMContentLoaded", () => {
     for (i = 0; i <= 48; i++) {
 
       let fourSquare = [i, i + 1, i + width, i + width + 1]; //three squares inside square array - square ID plus width to go up one row and plus double width to go up two rows
-      let decidedColor = squares[i].style.backgroundColor;
-      const isBlank = squares[i].style.backgroundColor === "";
+      let decidedColor = squares[i].style.backgroundImage;
+      const isBlank = squares[i].style.backgroundImage === "";
 
       if (
         fourSquare.every(
           (index) =>
-            squares[index].style.backgroundColor === decidedColor && !isBlank
+            squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
         score += 500;
         scoreDisplay.innerHTML = score
         fourSquare.forEach((index) => {
-          squares[index].style.backgroundColor = "";
+          squares[index].style.backgroundImage = "";
         });
       }
     }
@@ -193,12 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
     //fillBlanksAtStart()
     moveDown(); // this needs to execute first
     checkRow();
-    checkColumn(); 
-    moveDown()
-    checkFourSquare()
+    checkColumn();
+    checkFourSquare() 
     
     
-    moveDown()
 
   }, 100);
 
