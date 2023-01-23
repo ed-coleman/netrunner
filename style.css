@@ -1,0 +1,15 @@
+
+/* this is the grid */
+.grid {
+    height: 560px;
+    width: 560px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+/* these are the squares */
+.grid > div {
+    height: 70px;
+    width: 70px;
+}
