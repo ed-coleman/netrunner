@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".grid");
   const width = 8;
   const squares = [];
+  const scoreDisplay = document.getElementById('score')
   let score = 0;
   const squareColors = ["red", "yellow", "purple", "green", "blue", "orange"];
 
@@ -86,17 +87,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // drop sqaures down after clearing
 
+  /*function fillBlanksAtStart () {
+    for (i = 0; i < squares.length; i++) {
+    let randomColor = Math.floor(Math.random() * squareColors.length)
+    if (squares[i].style.backgroundColor === '') {
+      squares[i].style.backgroundColor = squareColors[randomColor]
+    }
+  }
+  }*/
+
   function moveDown() {
-    for (i = 0; i < 55; i++) {
+    for (i = 0; i <= 55; i++) {
         if (squares[i + width].style.backgroundColor === '') {
             squares[i + width].style.backgroundColor = squares[i].style.backgroundColor
             squares[i].style.backgroundColor = ''
             const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
-            const isFirstRow = firstRow.includes[i]
-            if (isFirstRow && squares[i].style.backgroundColor === ''){
-              let randomColor = Math.floor(Math.random * squareColors.length)
+            const isFirstRow = firstRow.includes(i)
+            if (isFirstRow && (squares[i].style.backgroundColor === '')) {
+              let randomColor = Math.floor(Math.random() * squareColors.length)
               squares[i].style.backgroundColor = squareColors[randomColor]
-
             }
         }
     }
@@ -105,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   function checkRow() {
-    for (i = 0; i < 61; i++) {
+    for (i = 0; i < 63; i++) {
       //for has to be set at 61 because that's the maximum that can be checked ie square 61, 62 and 63
 
       let rowOfThree = [i, i + 1, i + 2]; //three squares inside square array
@@ -123,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         )
       ) {
         score += 100;
+        scoreDisplay.innerHTML = score
         rowOfThree.forEach((index) => {
           squares[index].style.backgroundColor = "";
         });
@@ -130,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   checkRow();
+
 
   function checkColumn() {
     for (i = 0; i <= 48; i++) {
@@ -146,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         )
       ) {
         score += 100;
+        scoreDisplay.innerHTML = score
         columnOfThree.forEach((index) => {
           squares[index].style.backgroundColor = "";
         });
@@ -154,10 +166,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   checkColumn();
 
+  function checkFourSquare() {
+    for (i = 0; i <= 48; i++) {
+
+      let fourSquare = [i, i + 1, i + width, i + width + 1]; //three squares inside square array - square ID plus width to go up one row and plus double width to go up two rows
+      let decidedColor = squares[i].style.backgroundColor;
+      const isBlank = squares[i].style.backgroundColor === "";
+
+      if (
+        fourSquare.every(
+          (index) =>
+            squares[index].style.backgroundColor === decidedColor && !isBlank
+        )
+      ) {
+        score += 500;
+        scoreDisplay.innerHTML = score
+        fourSquare.forEach((index) => {
+          squares[index].style.backgroundColor = "";
+        });
+      }
+    }
+  }
+  checkFourSquare()
+
   window.setInterval(function () {
+    //fillBlanksAtStart()
     moveDown(); // this needs to execute first
     checkRow();
     checkColumn(); 
+    moveDown()
+    checkFourSquare()
+    
+    
+    moveDown()
 
   }, 100);
 
