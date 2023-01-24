@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".grid");
   const width = 8;
   const squares = [];
+  const mirrorArr = []
   const scoreDisplay = document.getElementById("score");
   const timerDisplay = document.getElementById("timer");
   const movesDisplay = document.getElementById("moves");
@@ -32,10 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
       let randomColor = Math.floor(Math.random() * squareColors.length - 1);
       square.style.backgroundImage = squareColors[randomColor]; //
       grid.appendChild(square);
-      squares.push(square);
+      squares.push(square)
+      mirrorArr.push(square);
+      
     }
   }
   createBoard();
+  console.log(mirrorArr)
+
+  //ICE test
+
+ 
 
   // Drag
 
@@ -44,22 +52,27 @@ document.addEventListener("DOMContentLoaded", () => {
   let squareIdBeingDragged;
   let squareIdBeingReplaced;
 
-  squares.forEach((square) => square.addEventListener("dragstart", (e) => {
-    /*console.log(e.target.style.backgroundImage.url, squareColors[8])
+  squares.forEach((square) =>
+    square.addEventListener("dragstart", (e) => {
+      /*console.log(e.target.style.backgroundImage.url, squareColors[8])
      if (e.target.style.backgroundImage === squareColors[8]) {
       e.target.setAttribute("draggable", false)
       console.log(square)
     }*/
-    console.log(square)
-    if (e.target.draggable === true) {
-      dragStart(e.target)
-    }
-  } ));
-  squares.forEach((square) => square.addEventListener("dragend", (e) => {
-    if (e.target.draggable === true) {
-    dragEnd(e.target)
-    }
-  }));
+      console.log(square);
+      if (e.target.draggable === true) {
+        dragStart(e.target);
+      }
+    })
+  );
+  squares.forEach((square) =>
+    square.addEventListener("dragend", (e) => {
+      if (e.target.draggable === true) {
+        dragEnd(e.target);
+      }
+    })
+  );
+
   squares.forEach((square) => square.addEventListener("dragover", dragOver));
   squares.forEach((square) => square.addEventListener("dragenter", dragEnter));
   squares.forEach((square) => square.addEventListener("dragleave", dragLeave));
@@ -67,9 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function dragStart(something) {
     squareBeingDragged = something.style.backgroundImage;
-    console.log(something, "dragstart");
+    console.log("dragstart Start");
     squareIdBeingDragged = parseInt(something.id); // converts square id into a number
     console.log(squareBeingDragged);
+    console.log("dragStart End")
   }
 
   /*const ice = "url(icon1.png)"
@@ -90,22 +104,32 @@ ice.ondragstart = () => {
   }
 
   function dragDrop() {
-    console.log(this.id, "dragDrop");
+    console.log('dragDrop start')
     squareBeingReplaced = this.style.backgroundImage;
+    console.log(`squareBeingReplaced this.style.backgroundImage = ${this.style.backgroundImage}`)
+    if (squareBeingReplaced === squareColors[8]) {
+      console.log(`${squareColors[8]} is the same are the url`)
+    }
     squareIdBeingReplaced = parseInt(this.id); //convers square being replaced Id to a number so it can be used to calculate Id of valid moves below (because you need to add/subtract)
+    console.log(`squareBeingReplaced = ${squareBeingReplaced}`);
+    console.log(`squareIdBeingReplaced = ${squareIdBeingReplaced}`);
     this.style.backgroundImage = squareBeingDragged;
-    squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced; // this will give the new square the color of the square being replaced
+    squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced;
+    console.log(`squareIdBeingDragged = ${squareIdBeingDragged}`); // this will give the new square the color of the square being replaced
+    console.log('dragDrop end')
   }
-  function dragEnd(something) {
-    console.log(this.id, "dragend");
+
+  function dragEnd() {
+    console.log("dragEnd start")
     let validMoves = [
       squareIdBeingDragged - 1, // square to left
       squareIdBeingDragged - width, //square above dragged square on grid (one full width back in array)
       squareIdBeingDragged + 1, //square to square to right
       squareIdBeingDragged + width, //square below dragged square on grid (one full width forward in array)
     ];
+    console.log(`squareBeingDragged = ${squareBeingDragged}`); // square beingDragged is an IMG
+
     let validMove = validMoves.includes(squareIdBeingReplaced);
-    console.log(squares[squareBeingDragged])
 
     if (squareIdBeingReplaced && validMove) {
       squareIdBeingReplaced = null;
@@ -114,12 +138,14 @@ ice.ondragstart = () => {
     } else if (squareIdBeingReplaced && !validMove) {
       squares[squareIdBeingReplaced].style.backgroundImage =
         squareBeingReplaced; // if it is not a valid move square color does not change
+      console.log(`squareBeingReplaced = ${squareBeingReplaced}`);
       squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged;
     } else {
       squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged; // color doesn't change until after dragEnd has finished
-    //console.log(squares[squareBeingReplaced].style.backgroundImage)
+      //console.log(squares[squareBeingReplaced].style.backgroundImage)
+    }
+    console.log('dragEnd End')
   }
-}
   /* currently squares can be swapped if one begins a row and the other ends a row which needs fixing. 
   Also can swap squares diagonally which needs fixing */
 
@@ -162,8 +188,6 @@ ice.ondragstart = () => {
 
       const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]; // array of square ID's that are the last two on each row
 
-      if (notValid.includes(i)) continue; // if the square id being dragged/replaced is included in the array of invalid squares skip it
-
       if (
         rowOfThree.every(
           (index) =>
@@ -180,7 +204,6 @@ ice.ondragstart = () => {
       }
     }
   }
-  checkRow();
 
   function checkColumn() {
     for (i = 0; i <= 48; i++) {
@@ -206,7 +229,6 @@ ice.ondragstart = () => {
       }
     }
   }
-  checkColumn();
 
   function checkFourSquare() {
     for (i = 0; i <= 48; i++) {
@@ -230,7 +252,6 @@ ice.ondragstart = () => {
       }
     }
   }
-  checkFourSquare();
 
   setInterval(() => {
     timer--;
@@ -238,22 +259,26 @@ ice.ondragstart = () => {
   }, 1000);
 
 
+
+
+  
+
+
+
+
   function makeIce() {
-    let randomSquare = Math.floor(Math.random() * squares.length);
-    squares[randomSquare].style.backgroundImage = squareColors[8];
-    squares[randomSquare].setAttribute("id", 'ice')
-    squares[randomSquare].setAttribute("draggable", false)
+    //let randomSquare = Math.floor(Math.random() * squares.length);
+    squares[30].style.backgroundImage = squareColors[8];
+    squares[30].setAttribute("draggable", false);
+    console.log('made ice')
   }
 
-  /*if ((squares[i].style.backgroundImage = squareColors[8])) {
-    ;
-  }
+  makeIce()
 
-  if (squares[i].id === 'ice') {
-    ;
-  }*/
 
-  setInterval(makeIce, 5000);
+  //setInterval(makeIce, 5000);
+
+
 
   window.setInterval(function () {
     //fillBlanksAtStart()
