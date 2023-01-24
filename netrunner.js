@@ -5,15 +5,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const width = 8;
   const squares = [];
   const scoreDisplay = document.getElementById('score')
+  const timerDisplay = document.getElementById('timer')
+  const movesDisplay = document.getElementById('moves')
   let score = 0;
+  let moves = 10
+  let timer = 60
+  
   const squareColors = [
-    "url(icon1.png)", 
-    "url(icon2.png)", 
-    "url(icon3.png)", 
-    "url(icon4.png)", 
-    "url(icon5.png)", 
-    "url(icon7.png)",
+    "url(blue1.png)", 
+    "url(blue2.png)", 
+    "url(blue3.png)", 
+    "url(blue4.png)", 
+    "url(blue5.png)", 
+    "url(blue6.png)", 
+    "url(blue7.png)", 
+    "url(blue8.png)",
+    "url(icon1.png)",
   ];
+
+ 
+    
 
   //this function creates the squares on the board
   function createBoard() {
@@ -21,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const square = document.createElement("div");
       square.setAttribute("draggable", true);
       square.setAttribute("id", i);
-      let randomColor = Math.floor(Math.random() * squareColors.length);
+      let randomColor = Math.floor(Math.random() * squareColors.length -1)
       square.style.backgroundImage = squareColors[randomColor]; //
       grid.appendChild(square);
       squares.push(square);
@@ -44,6 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
   squares.forEach((square) => square.addEventListener("drop", dragDrop));
 
   function dragStart() {
+
+
+  /*if (squares[squareBeingDragged].style.backgroundImage === "url(icon1.png)") {
+    return
+  }*/
+
     squareBeingDragged = this.style.backgroundImage;
     console.log(this.id, "dragstart");
     squareIdBeingDragged = parseInt(this.id); // converts square id into a number
@@ -66,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     squareBeingReplaced = this.style.backgroundImage;
     squareIdBeingReplaced = parseInt(this.id); //convers square being replaced Id to a number so it can be used to calculate Id of valid moves below (because you need to add/subtract)
     this.style.backgroundImage = squareBeingDragged;
-    squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced; // this will give the new square the color of the square being replaced
+    squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced // this will give the new square the color of the square being replaced
   }
   function dragEnd() {
     console.log(this.id, "dragend");
@@ -77,15 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
       squareIdBeingDragged + width, //square below dragged square on grid (one full width forward in array)
     ];
     let validMove = validMoves.includes(squareIdBeingReplaced);
-
+    //squares[randomSquare].style.backgroundImage = iceIcons[0]
+    //console.log(squares[squareBeingDragged])
+    /*if (squares[squareBeingDragged].style.backgroundImage === "url(icon1.png)") {
+      validMove = false
+    }*/
     if (squareIdBeingReplaced && validMove) {
       squareIdBeingReplaced = null;
+      moves --
+      movesDisplay.innerHTML = moves
     } else if (squareIdBeingReplaced && !validMove) {
       squares[squareIdBeingReplaced].style.backgroundImage =
         squareBeingReplaced; // if it is not a valid move square color does not change
       squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged;
     } else
       squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged; // color doesn't change until after dragEnd has finished
+      //console.log(squares[squareBeingReplaced].style.backgroundImage)
   }
   /* currently squares can be swapped if one begins a row and the other ends a row which needs fixing. 
   Also can swap squares diagonally which needs fixing */
@@ -111,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
             const isFirstRow = firstRow.includes(i)
             if (isFirstRow && (squares[i].style.backgroundImage === '')) {
-              let randomColor = Math.floor(Math.random() * squareColors.length)
+              let randomColor = Math.floor(Math.random() * squareColors.length - 1)
               squares[i].style.backgroundImage = squareColors[randomColor]
             }
         }
@@ -139,6 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
         )
       ) {
         score += 100;
+        timer += 10
+        moves += 2
         scoreDisplay.innerHTML = score
         rowOfThree.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -164,6 +190,8 @@ document.addEventListener("DOMContentLoaded", () => {
         )
       ) {
         score += 100;
+        timer += 10
+        moves += 2
         scoreDisplay.innerHTML = score
         columnOfThree.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -186,7 +214,9 @@ document.addEventListener("DOMContentLoaded", () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score += 500;
+        score += 200;
+        timer += 20
+        moves += 4
         scoreDisplay.innerHTML = score
         fourSquare.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -195,6 +225,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   checkFourSquare()
+
+  setInterval(() => {
+    timer--;
+    timerDisplay.innerHTML = timer
+  }, 1000);
+
+  function makeIce() {
+    let randomSquare = Math.floor(Math.random() * squares.length)
+    squares[randomSquare].style.backgroundImage = "url(icon1.png)"
+  }
+
+  setInterval(makeIce, 1000)
+
+
+  
+
+
 
   window.setInterval(function () {
     //fillBlanksAtStart()
