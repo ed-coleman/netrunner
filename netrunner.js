@@ -8,15 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // this is the grid
   const grid = document.querySelector(".grid");
+  let scoreBoard = document.querySelector(".container")
+  const terminationMessage = document.querySelector(".secret-menu")
   const width = 8;
   const squares = [];
-  const mirrorArr = []
   const scoreDisplay = document.getElementById("score");
   const timerDisplay = document.getElementById("timer");
   const movesDisplay = document.getElementById("moves");
   let score = 0;
   let moves = 10;
-  let timer = 60;
+  let timer = 20;
 
   const squareColors = [
     "url(blue1.png)",
@@ -36,6 +37,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const restartButton = document.getElementById("restartButton");
   console.log(restartButton);
 
+  restartButton.style.display = 'none'
+
+  startButton.addEventListener("click", startGame)
+  restartButton.addEventListener("click", gameOver)
+  
+  function startGame() {
+    console.log('start button clicked')
+    startTime()
+    grid.style.display = 'flex'
+    scoreBoard.style.display = 'flex'
+    startButton.style.display = 'none'
+    restartButton.style.display = 'flex'
+    terminationMessage.style.display = 'none'
+    
+    
+  }
+  
+  function restartGame() {
+    location.reload()
+  }
+
+  function gameOver() {
+
+console.log('GAME OVER')
+    grid.style.display = 'none'
+    scoreBoard.style.display = 'none'
+    startButton.style.display = 'flex'
+    restartButton.style.display = 'none'
+    terminationMessage.style.display = 'flex'
+
+
+  }
+
+ 
+
   //this function creates the squares on the board
   function createBoard() {
     for (let i = 0; i < width * width; i++) {
@@ -46,12 +82,29 @@ document.addEventListener("DOMContentLoaded", () => {
       square.style.backgroundImage = squareColors[randomColor]; //
       grid.appendChild(square);
       squares.push(square)
-      mirrorArr.push(square);
-      
-    }
+       }
   }
-  createBoard();
-  console.log(mirrorArr)
+  createBoard()
+
+  function startTime() {
+
+  setInterval(() => {
+    timer--;
+    timerDisplay.innerHTML = timer;
+  }, 1000);
+}
+
+function resetScore () {
+
+  score = 0
+  moves = 10
+  timer = 20
+
+}
+
+ 
+  
+  
 
   //ICE test
 
@@ -206,9 +259,9 @@ ice.ondragstart = () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score += 100;
-        timer += 10;
-        moves += 2;
+        score + 100;
+        timer + 1;
+        moves + 1;
         scoreDisplay.innerHTML = score;
         rowOfThree.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -231,9 +284,9 @@ ice.ondragstart = () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score += 100;
-        timer += 10;
-        moves += 2;
+        score + 100;
+        timer + 1;
+        moves + 1;
         scoreDisplay.innerHTML = score;
         columnOfThree.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -254,9 +307,9 @@ ice.ondragstart = () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score += 200;
-        timer += 20;
-        moves += 4;
+        score + 200;
+        timer + 2;
+        moves + 4;
         scoreDisplay.innerHTML = score;
         fourSquare.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -265,10 +318,7 @@ ice.ondragstart = () => {
     }
   }
 
-  setInterval(() => {
-    timer--;
-    timerDisplay.innerHTML = timer;
-  }, 1000);
+
 
 
 
@@ -279,16 +329,14 @@ ice.ondragstart = () => {
 
 
   function makeIce() {
-    //let randomSquare = Math.floor(Math.random() * squares.length);
-    squares[30].style.backgroundImage = squareColors[8];
-    squares[30].setAttribute("draggable", false);
+    let randomSquare = Math.floor(Math.random() * squares.length);
+    squares[randomSquare].style.backgroundImage = squareColors[8];
+    squares[randomSquare].setAttribute("draggable", false);
     console.log('made ice')
   }
 
-  makeIce()
 
-
-  //setInterval(makeIce, 5000);
+  setInterval(makeIce, 5000);
 
 
 
