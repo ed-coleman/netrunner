@@ -31,6 +31,17 @@
     justify-content: center;
 }
 
+.buttons-container {
+
+    margin: auto;
+    margin-bottom: 30px;
+    height: 10%;
+    width: 540px;
+    display: flex;
+    justify-content: center;
+
+}
+
 .body{
     font-family: 'Chakra Petch', sans-serif;
     margin: auto;
@@ -91,7 +102,5 @@ h3 {
     padding: auto;
 }
 
-body {
-    background-image: url('background.jpg')
-}
+
 

@@ -1,5 +1,11 @@
 // this event listener makes sure all the HTML file is read before this javascript file
 document.addEventListener("DOMContentLoaded", () => {
+
+
+
+
+
+
   // this is the grid
   const grid = document.querySelector(".grid");
   const width = 8;
@@ -23,6 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "url(blue8.png)",
     "url(icon1.png)",
   ];
+
+  const startButton = document.getElementById("startButton");
+  console.log(startButton);
+
+  const restartButton = document.getElementById("restartButton");
+  console.log(restartButton);
 
   //this function creates the squares on the board
   function createBoard() {
