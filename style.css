@@ -21,6 +21,16 @@
   border-style: solid;
   border-width: 1px;
 }
+
+.grid > div:hover {
+
+  color: white;
+  border-color: white;
+  border-width: 1px;
+opacity: 40%;
+
+}
+
 .container {
   border: #03d8f3;
   border-style: ridge;
