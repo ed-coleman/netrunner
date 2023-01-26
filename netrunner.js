@@ -10,14 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const timerDisplay = document.getElementById("timer");
   const movesDisplay = document.getElementById("moves");
   const endScoreDisplay = document.getElementById("endScore");
-  
+
   let score = 0;
   let moves = 10;
   let timer;
-
-  
-
-  
 
   const squareColors = [
     "url(blue1.png)",
@@ -69,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function gameOver() {
-   
     console.log("GAME OVER");
     grid.style.display = "none";
     scoreBoard.style.display = "none";
@@ -77,10 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "none";
     tryAgainButton.style.display = "flex";
     terminationMessage.style.display = "flex";
-    
-}
-
- 
+  }
 
   //this function creates the squares on the board
   function createBoard() {
@@ -101,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function startTime() {
     timer--;
     timerDisplay.innerHTML = timer;
-    console.log(timer)
+    console.log(timer);
   }
 
   // Drag
@@ -324,13 +316,12 @@ ice.ondragstart = () => {
     }
   }
 
- function checkGameOver() {
-  if (timer <= 0) {
-    gameOver()
-    endScoreDisplay.innerHTML = score;
- }
- }
-    
+  function checkGameOver() {
+    if (timer <= 0 || moves <= 0) {
+      gameOver();
+      endScoreDisplay.innerHTML = score;
+    }
+  }
 
   function makeIce() {
     let randomSquare = Math.floor(Math.random() * squares.length);
@@ -348,6 +339,7 @@ ice.ondragstart = () => {
     checkColumn();
     checkFourSquare();
     checkGameOver();
+    
   }, 100);
 });
 // need to add start and pause buttons // global event listener everything inside this
