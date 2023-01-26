@@ -11,8 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const movesDisplay = document.getElementById("moves");
   const endScoreDisplay = document.getElementById("endScore");
   const audio = new Audio('WBA Free Track - Midnight.mp3')
-  audio.volume = 0.3
-  audio.play()
+  
   
   let score = 0;
   let moves = 10;
