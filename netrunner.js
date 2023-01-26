@@ -3,24 +3,24 @@ console.log('Daniel is helpful')
 =======
 // this event listener makes sure all the HTML file is read before this javascript file
 document.addEventListener("DOMContentLoaded", () => {
-
-
-
-
-
-
   // this is the grid
   const grid = document.querySelector(".grid");
-  let scoreBoard = document.querySelector(".container")
-  const terminationMessage = document.querySelector(".secret-menu")
+  let scoreBoard = document.querySelector(".container");
+  const terminationMessage = document.querySelector(".secret-menu");
   const width = 8;
   const squares = [];
   const scoreDisplay = document.getElementById("score");
   const timerDisplay = document.getElementById("timer");
   const movesDisplay = document.getElementById("moves");
+  const endScoreDisplay = document.getElementById("endScore");
+  
   let score = 0;
   let moves = 10;
-  let timer = 20;
+  let timer;
+
+  
+
+  
 
   const squareColors = [
     "url(blue1.png)",
@@ -40,38 +40,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const restartButton = document.getElementById("restartButton");
   console.log(restartButton);
 
-  restartButton.style.display = 'none'
+  const tryAgainButton = document.getElementById("tryAgain");
 
-  startButton.addEventListener("click", startGame)
-  restartButton.addEventListener("click", gameOver)
-  
-  function startGame() {
-    console.log('start button clicked')
-    startTime()
-    grid.style.display = 'flex'
-    scoreBoard.style.display = 'flex'
-    startButton.style.display = 'none'
-    restartButton.style.display = 'flex'
-    terminationMessage.style.display = 'none'
-    
-    
+  restartButton.style.display = "none";
+
+  startButton.addEventListener("click", startGame);
+  restartButton.addEventListener("click", gameOver);
+  tryAgainButton.addEventListener("click", restartGame);
+
+  function resetScore() {
+    score = 0;
+    moves = 10;
+    timer = 21;
   }
-  
+
+  function startGame() {
+    console.log("start button clicked");
+    resetScore();
+    startTime();
+    grid.style.display = "flex";
+    scoreBoard.style.display = "flex";
+    startButton.style.display = "none";
+    restartButton.style.display = "flex";
+    terminationMessage.style.display = "none";
+    tryAgainButton.style.display = "none";
+  }
+
   function restartGame() {
-    location.reload()
+    location.reload();
+    tryAgainButton.style.display = "none";
   }
 
   function gameOver() {
-
-console.log('GAME OVER')
-    grid.style.display = 'none'
-    scoreBoard.style.display = 'none'
-    startButton.style.display = 'flex'
-    restartButton.style.display = 'none'
-    terminationMessage.style.display = 'flex'
-
-
-  }
+   
+    console.log("GAME OVER");
+    grid.style.display = "none";
+    scoreBoard.style.display = "none";
+    startButton.style.display = "none";
+    restartButton.style.display = "none";
+    tryAgainButton.style.display = "flex";
+    terminationMessage.style.display = "flex";
+    
+}
 
  
 
@@ -84,34 +94,18 @@ console.log('GAME OVER')
       let randomColor = Math.floor(Math.random() * squareColors.length - 1);
       square.style.backgroundImage = squareColors[randomColor]; //
       grid.appendChild(square);
-      squares.push(square)
-       }
+      squares.push(square);
+    }
   }
-  createBoard()
+  createBoard();
+
+  setInterval(startTime, 1000);
 
   function startTime() {
-
-  setInterval(() => {
     timer--;
     timerDisplay.innerHTML = timer;
-  }, 1000);
-}
-
-function resetScore () {
-
-  score = 0
-  moves = 10
-  timer = 20
-
-}
-
- 
-  
-  
-
-  //ICE test
-
- 
+    console.log(timer)
+  }
 
   // Drag
 
@@ -151,7 +145,7 @@ function resetScore () {
     console.log("dragstart Start");
     squareIdBeingDragged = parseInt(something.id); // converts square id into a number
     console.log(squareBeingDragged);
-    console.log("dragStart End")
+    console.log("dragStart End");
   }
 
   /*const ice = "url(icon1.png)"
@@ -172,11 +166,13 @@ ice.ondragstart = () => {
   }
 
   function dragDrop() {
-    console.log('dragDrop start')
+    console.log("dragDrop start");
     squareBeingReplaced = this.style.backgroundImage;
-    console.log(`squareBeingReplaced this.style.backgroundImage = ${this.style.backgroundImage}`)
+    console.log(
+      `squareBeingReplaced this.style.backgroundImage = ${this.style.backgroundImage}`
+    );
     if (squareBeingReplaced === squareColors[8]) {
-      console.log(`${squareColors[8]} is the same are the url`)
+      console.log(`${squareColors[8]} is the same are the url`);
     }
     squareIdBeingReplaced = parseInt(this.id); //convers square being replaced Id to a number so it can be used to calculate Id of valid moves below (because you need to add/subtract)
     console.log(`squareBeingReplaced = ${squareBeingReplaced}`);
@@ -184,11 +180,11 @@ ice.ondragstart = () => {
     this.style.backgroundImage = squareBeingDragged;
     squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced;
     console.log(`squareIdBeingDragged = ${squareIdBeingDragged}`); // this will give the new square the color of the square being replaced
-    console.log('dragDrop end')
+    console.log("dragDrop end");
   }
 
   function dragEnd() {
-    console.log("dragEnd start")
+    console.log("dragEnd start");
     let validMoves = [
       squareIdBeingDragged - 1, // square to left
       squareIdBeingDragged - width, //square above dragged square on grid (one full width back in array)
@@ -212,7 +208,7 @@ ice.ondragstart = () => {
       squares[squareIdBeingDragged].style.backgroundImage = squareBeingDragged; // color doesn't change until after dragEnd has finished
       //console.log(squares[squareBeingReplaced].style.backgroundImage)
     }
-    console.log('dragEnd End')
+    console.log("dragEnd End");
   }
   /* currently squares can be swapped if one begins a row and the other ends a row which needs fixing. 
   Also can swap squares diagonally which needs fixing */
@@ -229,6 +225,9 @@ ice.ondragstart = () => {
     }
   }
   }*/
+
+  scoreDisplay.innerHTML = moves;
+  movesDisplay.innerHTML = score;
 
   function moveDown() {
     for (i = 0; i <= 55; i++) {
@@ -255,6 +254,7 @@ ice.ondragstart = () => {
       const isBlank = squares[i].style.backgroundImage === "";
 
       const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]; // array of square ID's that are the last two on each row
+      if (notValid.includes(i)) continue;
 
       if (
         rowOfThree.every(
@@ -262,9 +262,11 @@ ice.ondragstart = () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score + 100;
-        timer + 1;
-        moves + 1;
+        score += 10;
+        console.log(`score = ${score}`);
+        timer += 3;
+        moves += 1;
+        movesDisplay.innerHTML = moves;
         scoreDisplay.innerHTML = score;
         rowOfThree.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -287,10 +289,12 @@ ice.ondragstart = () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score + 100;
-        timer + 1;
-        moves + 1;
+        score += 10;
+        console.log(`score = ${score}`);
+        timer += 3;
+        moves += 1;
         scoreDisplay.innerHTML = score;
+        movesDisplay.innerHTML = moves;
         columnOfThree.forEach((index) => {
           squares[index].style.backgroundImage = "";
         });
@@ -310,9 +314,11 @@ ice.ondragstart = () => {
             squares[index].style.backgroundImage === decidedColor && !isBlank
         )
       ) {
-        score + 200;
-        timer + 2;
-        moves + 4;
+        score += 20;
+        console.log(`score = ${score}`);
+        timer += 4;
+        moves += 4;
+        movesDisplay.innerHTML = moves;
         scoreDisplay.innerHTML = score;
         fourSquare.forEach((index) => {
           squares[index].style.backgroundImage = "";
@@ -321,27 +327,22 @@ ice.ondragstart = () => {
     }
   }
 
-
-
-
-
-
-  
-
-
-
+ function checkGameOver() {
+  if (timer <= 0) {
+    gameOver()
+    endScoreDisplay.innerHTML = score;
+ }
+ }
+    
 
   function makeIce() {
     let randomSquare = Math.floor(Math.random() * squares.length);
     squares[randomSquare].style.backgroundImage = squareColors[8];
     squares[randomSquare].setAttribute("draggable", false);
-    console.log('made ice')
+    console.log("made ice");
   }
 
-
-  setInterval(makeIce, 5000);
-
-
+  const iceInterval = setInterval(makeIce, 5000);
 
   window.setInterval(function () {
     //fillBlanksAtStart()
@@ -349,6 +350,7 @@ ice.ondragstart = () => {
     checkRow();
     checkColumn();
     checkFourSquare();
+    checkGameOver();
   }, 100);
 });
 // need to add start and pause buttons // global event listener everything inside this
