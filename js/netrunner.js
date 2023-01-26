@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const timerDisplay = document.getElementById("timer");
   const movesDisplay = document.getElementById("moves");
   const endScoreDisplay = document.getElementById("endScore");
-  const audio = new Audio('music/WBA Free Track - Midnight.mp3')
+  const audio = new Audio('WBA Free Track - Midnight.mp3')
   audio.volume = 0.3
   audio.play()
   
@@ -19,15 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let timer;
 
   const squareColors = [
-    "url(images/blue1.png)",
-    "url(images/blue2.png)",
-    "url(images/blue3.png)",
-    "url(images/blue4.png)",
-    "url(images/blue5.png)",
-    "url(images/blue6.png)",
-    "url(images/blue7.png)",
-    "url(images/blue8.png)",
-    "url(images/icon1.png)",
+    "url(blue1.png)",
+    "url(blue2.png)",
+    "url(blue3.png)",
+    "url(blue4.png)",
+    "url(blue5.png)",
+    "url(blue6.png)",
+    "url(blue7.png)",
+    "url(blue8.png)",
+    "url(icon1.png)",
   ];
 
   const startButton = document.getElementById("startButton");

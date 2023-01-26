@@ -56,10 +56,9 @@ opacity: 40%;
   padding-top: 90px;
 }
 
-.body {
-  background-image: url("images/background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+body {
+  background-image: url("background.jpg");
+  margin: auto;
 }
 
 .secret-menu {
