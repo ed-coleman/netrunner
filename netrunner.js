@@ -10,7 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const timerDisplay = document.getElementById("timer");
   const movesDisplay = document.getElementById("moves");
   const endScoreDisplay = document.getElementById("endScore");
-
+  const audio = new Audio('WBA Free Track - Midnight.mp3')
+  audio.volume = 0.3
+  audio.play()
+  
   let score = 0;
   let moves = 10;
   let timer;
@@ -57,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "flex";
     terminationMessage.style.display = "none";
     tryAgainButton.style.display = "none";
+    audio.volume = 0.6
   }
 
   function restartGame() {
@@ -72,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "none";
     tryAgainButton.style.display = "flex";
     terminationMessage.style.display = "flex";
+    audio.volume = 0.3
   }
 
   //this function creates the squares on the board
@@ -95,6 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
     timerDisplay.innerHTML = timer;
     console.log(timer);
   }
+
+  
+
+
+
 
   // Drag
 
