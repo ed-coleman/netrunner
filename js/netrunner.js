@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "flex";
     terminationMessage.style.display = "none";
     tryAgainButton.style.display = "none";
-    audio.volume = 0.6
+    audio.volume = 0.1
   }
 
   function restartGame() {
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "none";
     tryAgainButton.style.display = "flex";
     terminationMessage.style.display = "flex";
-    audio.volume = 0.3
+    audio.volume = 0.1
   }
 
   //this function creates the squares on the board

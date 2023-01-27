@@ -11,10 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const endScoreDisplay = document.getElementById("endScore");
   const audio = new Audio("music/WBA Free Track - Midnight.mp3");
 
+
   const tileMoveSOund = new Audio("music/interface-124464.mp3");
+  tileMoveSOund.volume = 0.1
   const buttonPress = new Audio("music/buttonpress-94482.mp3");
+  buttonPress.volume = 0.1
   const tryAgainButtonPress = new Audio("music/interface-124464.mp3");
+  tryAgainButtonPress.volume = 0.1
   const exitButtonPress = new Audio("music/invalid-selection-39351.mp3");
+  exitButtonPress.volume = 0.1
 
   let score = 0;
   let moves = 10;
@@ -84,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "none";
     tryAgainButton.style.display = "flex";
     terminationMessage.style.display = "flex";
-    audio.volume = 0.3;
+    audio.volume = 0.1;
   }
 
   function createBoard() {
