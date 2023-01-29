@@ -1,0 +1,153 @@
+# Netrunner
+
+## Description
+
+Netrunner is a game where the player has to move tiles on a four by four grid in order to match a row or column of three tiles. The player has a limited number of moves and a time limit. Each successful match adds time and moves. Every eight seconds a random tile will become ICE, meaning it is not draggable or matchable and reducing the players range of possible moves. The game ends when the player runs out of time, moves or viable tiles. The player gets a high score based on how many successful matches they made.
+
+
+
+
+## MVP (DOM)
+
+Must be playable online in browser
+Win State - score goal achieved/high score based
+Lose State - game over when time reaches zero
+Include separate HTML/CSS/Javascript
+Have a start function (button)
+Background
+4x4 grid that populates with icons
+Minimum 5 different icons
+Icon positions are swappable in order to create matches 
+Icons are selected on click? 
+Able to match 3 icons in one direction (horizontal or vertical)
+Matched icons disappear 
+Icons repopulate when matched icons disappear
+Visible score counter that increases with successful matches
+Visible time limit 
+Game over screen when time runs out 
+Win/high score Screen with restart button
+
+
+-
+## Backlog
+
+- add high score board
+- refine ICE behaviour
+- add instructions screen
+- 
+
+## Data Structure
+
+# main.js
+
+function resetScore() 
+
+function startGame() 
+function restartGame()
+function gameOver()
+function createBoard()
+
+setInterval(startTime, 1000);
+
+function startTime() 
+
+  squares.forEach((square) =>
+    square.addEventListener("dragstart", (e) => {
+      if (e.target.draggable === true) {
+        dragStart(e.target);
+      }
+    })
+  );
+  squares.forEach((square) =>
+    square.addEventListener("dragend", (e) => {
+      if (e.target.draggable === true) {
+        dragEnd(e.target);
+      }
+    })
+  );
+
+  squares.forEach((square) => square.addEventListener("dragover", dragOver));
+  squares.forEach((square) => square.addEventListener("dragenter", dragEnter));
+  squares.forEach((square) => square.addEventListener("dragleave", dragLeave));
+  squares.forEach((square) => square.addEventListener("drop", dragDrop));
+
+  function dragStart(something) {
+    squareBeingDragged = something.style.backgroundImage;
+
+    squareIdBeingDragged = parseInt(something.id);
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+  }
+  function dragEnter(e) {
+    e.preventDefault();
+  }
+  function dragLeave() {}
+
+  function dragDrop() {
+    squareBeingReplaced = this.style.backgroundImage;
+
+    if (squareBeingReplaced === squareColors[8]) {
+      console.log(`${squareColors[8]} is the same are the url`);
+    }
+    squareIdBeingReplaced = parseInt(this.id);
+
+    this.style.backgroundImage = squareBeingDragged;
+    squares[squareIdBeingDragged].style.backgroundImage = squareBeingReplaced;
+  }
+
+  function dragEnd() 
+  function moveDown() 
+  function checkRow()
+
+  function checkColumn() 
+
+  function checkFourSquare() 
+
+  function checkGameOver()
+
+  function makeIce()
+  setInterval(makeIce, 8000);
+
+  window.setInterval(function () {
+    moveDown();
+    checkGameOver();
+    checkRow();
+    checkColumn();
+    checkFourSquare();
+  }, 100);
+});
+
+## States y States Transitions
+Definition of the different states and their transition (transition functions)
+
+- start screen
+- game screen
+- game over screen
+
+## Task
+
+- main - create game board
+- main - create square icons
+- main - addEventListeners for drag
+- main - add condition for draggable = false
+- main - add function for matches
+- main - add function for square drop
+- main - add CSS 
+- main - add function for score/time/moves
+- main - game over screen/high score
+
+
+
+## Links
+
+
+### Git
+URls for the project repo and deploy
+[Link Repo] https://github.com/ed-coleman/netrunner.git
+[Link Deploy]https://ed-coleman.github.io/netrunner/
+
+### Slides
+URls for the project presentation (slides)
+[Link Slides] https://docs.google.com/presentation/d/1KrC9GW32MG-UbVzvw6nil4dV3QeLSNDA3Pw-EMFra68/edit?usp=sharing
